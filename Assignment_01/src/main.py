@@ -228,7 +228,6 @@ test_df = pd.read_csv("include/test.csv")
 
 # print(np.sum(train_df.Age == np.nan))
 
-
 # *** QUESTION 18 ***
 
 # print("In the training dataset, The mode for Embarked freature is: ", train_df['Embarked'].mode())
@@ -248,8 +247,8 @@ test_df = pd.read_csv("include/test.csv")
 
 # *** QUESTION 20 ***
 
-train_df['Fare_bin'] = pd.cut(train_df['Fare'], [-0.001, 7.91, 14.454, 31.0, 512.329], labels=['0', '1', '2', '3'])
-print(train_df.head())
+# train_df['Fare_bin'] = pd.cut(train_df['Fare'], [-0.001, 7.91, 14.454, 31.0, 512.329], labels=['0', '1', '2', '3'])
+# print(train_df.head())
 
 
 

@@ -10,12 +10,12 @@ train_df_survived = train_df[train_df["Survived"] == 1]
 train_df_died = train_df[train_df["Survived"] == 0]
 
 f, axes = plt.subplots(1, 2, figsize=(7, 7), sharey=True)
-sns.distplot(train_df_survived['Age'], color='g', kde = False, ax=axes[0])
-axes[0].set_title("Survived = 1")
+sns.distplot(train_df_died['Age'], color='g', kde = False, ax=axes[0])
+axes[0].set_title("Survived = 0")
 axes[0].set_xlim(0,80)
 
-sns.distplot(train_df_died['Age'], color='r', kde = False, ax=axes[1])
-axes[1].set_title("Survived = 0")
+sns.distplot(train_df_survived['Age'], color='r', kde = False, ax=axes[1])
+axes[1].set_title("Survived = 1")
 axes[1].set_xlim(0,80)
 plt.show()
 
