@@ -4,7 +4,6 @@ from sklearn import metrics
 from progress.bar import Bar
 from tabulate import tabulate
 from matplotlib import pyplot as plt
-from matplotlib.ticker import MultipleLocator
 import numpy as np
 from sklearn.model_selection import KFold, cross_val_score, cross_val_predict, train_test_split
 
@@ -117,15 +116,14 @@ Acc_values = [row[1] for row in accuracy]
 max_accuracy = max(Acc_values)
 max_accuracy_knn = K_values[Acc_values.index(max_accuracy)]
 
+print("\nKNN Value with best accuracy:")
 print("K=", max_accuracy_knn, "Accuracy=", "{:.2f}%".format(max_accuracy*100), end="\n\n")
 
 # Plot the graph
-ml = MultipleLocator(5)
 plt.plot(K_values, Acc_values)
 plt.xlabel("K Values")
 plt.ylabel("Accuracy Values")
 plt.title("Accuracy vs. K values")
-plt.axes().xaxis.set_minor_locator(ml)
 plt.show()
 
 ## KNN on the entire dataset ###
