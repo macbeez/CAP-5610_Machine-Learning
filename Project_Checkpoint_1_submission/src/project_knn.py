@@ -18,75 +18,75 @@ features = train_df.drop(['label'], axis = 1)
 # DATA ANALYSIS
 ############################################################################################################
 
-# train_df.info()
-# test_df.info()
+train_df.info()
+test_df.info()
 
-# print(train_df.head())
-# print(train_df.isnull().sum())
+print(train_df.head())
+print(train_df.isnull().sum())
 
-# # Plot the labels (digits) in the training dataset
+# Plot the labels (digits) in the training dataset
 
-# digits = train_df['label']
-# # print(digits)
+digits = train_df['label']
+# print(digits)
 
-# freq = {}
-# for digit in digits:
-#     if (digit in freq):
-#         freq[digit] += 1
-#     else:
-#         freq[digit] = 1
+freq = {}
+for digit in digits:
+    if (digit in freq):
+        freq[digit] += 1
+    else:
+        freq[digit] = 1
 
-# data = []
-# keys = sorted(list(freq.keys()))
+data = []
+keys = sorted(list(freq.keys()))
 
-# for key in keys:
-# 	data.append([key, freq[key]])
+for key in keys:
+	data.append([key, freq[key]])
 
-# print(tabulate(data, headers = ["Digit", "Count"], tablefmt = 'psql'))
+print(tabulate(data, headers = ["Digit", "Count"], tablefmt = 'psql'))
 
-# label = list(freq.keys())
-# counts = list(freq.values())
+label = list(freq.keys())
+counts = list(freq.values())
 
-# # print("labels and the length of label list: \n", label, len(label))
-# # print("labels and the length of counts list: \n", counts, len(counts))
+# print("labels and the length of label list: \n", label, len(label))
+# print("labels and the length of counts list: \n", counts, len(counts))
 
-# fig = plt.figure(figsize = (10,7))
-# plt.pie(counts, labels = label, autopct='%1.1f%%')
+fig = plt.figure(figsize = (10,7))
+plt.pie(counts, labels = label, autopct='%1.1f%%')
 
-# plt.savefig("digit_count.png")
+plt.savefig("digit_count.png")
 
 #############################################################################################################
 # FINDING THE BEST K VALUES 
 #############################################################################################################
 
-# k = 1
-# acc = []
-# max_k = 100
-# bar = Bar('Processing', max = max_k)
+k = 1
+acc = []
+max_k = 100
+bar = Bar('Processing', max = max_k)
 
-# while(k <= max_k):
-#   # Build training and testing dataset
-#   X_train, X_test, y_train, y_test = train_test_split(features, target, test_size = 0.3, random_state = 520)
-#   # Create a KNN Classifier
-#   knn = KNeighborsClassifier(n_neighbors = k)
-#   # Train the model using the training sets
-#   knn.fit(X_train, y_train)
-#   # Predict the response for the test_titanic dataset
-#   y_pred = knn.predict(X_test)
+while(k <= max_k):
+  # Build training and testing dataset
+  X_train, X_test, y_train, y_test = train_test_split(features, target, test_size = 0.3, random_state = 520)
+  # Create a KNN Classifier
+  knn = KNeighborsClassifier(n_neighbors = k)
+  # Train the model using the training sets
+  knn.fit(X_train, y_train)
+  # Predict the response for the test_titanic dataset
+  y_pred = knn.predict(X_test)
 
-#   acc.append([k, metrics.accuracy_score(y_test, y_pred)])
-#   k = k + 1
-#   bar.next()
+  acc.append([k, metrics.accuracy_score(y_test, y_pred)])
+  k = k + 1
+  bar.next()
 
-# bar.finish()
+bar.finish()
 
-# K_values = [row[0] for row in acc]
-# Acc_values = [row[1] for row in acc]
+K_values = [row[0] for row in acc]
+Acc_values = [row[1] for row in acc]
 
-# max_accuracy = max(Acc_values)
-# max_accuracy_knn = K_values[Acc_values.index(max_accuracy)]
+max_accuracy = max(Acc_values)
+max_accuracy_knn = K_values[Acc_values.index(max_accuracy)]
 
-# print("When K=", max_accuracy_knn, ", the maximum accuracy is obtained. Accuracy =", "{:.2f}%".format(max_accuracy*100), end="\n\n")
+print("When K=", max_accuracy_knn, ", the maximum accuracy is obtained. Accuracy =", "{:.2f}%".format(max_accuracy*100), end="\n\n")
 
 ############################################################################################################
 # KNN ON THE TRAINING DATA USING K VALUE THAT GIVES MAXIMUM ACCURACY
@@ -94,35 +94,38 @@ features = train_df.drop(['label'], axis = 1)
 
 X_train, X_test, y_train, y_test = train_test_split(features, target, test_size = 0.3, random_state = 600)
 
-# Create a KNN Classifier
-knn = KNeighborsClassifier(n_neighbors = 5)
+# Take the best 3 K values (K = 1, K = 3 and K = 5) to run the KNN algorithm
 
-# Train the model using the training sets
-knn.fit(X_train, y_train)
+for i in range(1,6,2):
+  # Create a KNN Classifier
+  knn = KNeighborsClassifier(n_neighbors = i)
 
-# Predict the response for the test_titanic dataset
-y_pred = knn.predict(X_test)
-# print("KNN: Predicted y labels: ", y_pred)
+  # Train the model using the training sets
+  knn.fit(X_train, y_train)
 
-print("\nThe accuracy on the entire model is: %.4f" % metrics.accuracy_score(y_test, y_pred))
+  # Predict the response for the test_titanic dataset
+  y_pred = knn.predict(X_test)
+  # print("KNN: Predicted y labels: ", y_pred)
+
+  print("\nThe accuracy on the entire model when K = ", i, " is: %.4f" % metrics.accuracy_score(y_test, y_pred))
 
 ############################################################################################################
 # WRITE K AND ACCURACY VALUES INTO A TEXT FILE
 ############################################################################################################
 
-# with open('K_and_Acc.csv', 'a') as a_writer:
-#   for k_val, accu in zip(K_values, Acc_values):
-#     a_writer.write(str(k_val) + "," + str(accu) + ";\n")
+with open('K_and_Acc.csv', 'a') as a_writer:
+  for k_val, accu in zip(K_values, Acc_values):
+    a_writer.write(str(k_val) + "," + str(accu) + ";\n")
 
 ############################################################################################################
 # PLOT K VALUES vs. ACCURACY
 ############################################################################################################
 
-# plt.plot(K_values, Acc_values)
-# plt.xlabel("K Values")
-# plt.ylabel("Accuracy Values")
-# plt.title("K values vs. Accuracy")
-# plt.savefig("K_vs_Acc.png")
+plt.plot(K_values, Acc_values)
+plt.xlabel("K Values")
+plt.ylabel("Accuracy Values")
+plt.title("K values vs. Accuracy")
+plt.savefig("K_vs_Acc.png")
 
 
 
