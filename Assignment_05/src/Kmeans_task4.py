@@ -18,7 +18,7 @@ for i in range(0, len(X)):
             farthest_distance = dist
             farthest_points = X[i], Y[j]
 
-print("The two farthest_points are: ", farthest_points)
+print("\nThe two farthest_points are: ", farthest_points)
 print("The farthest distance is: %.4f" % farthest_distance)
 
 closest_distance = math.inf
@@ -42,3 +42,14 @@ for i in range(0, len(points)):
 average_distance = sum(distances)/len(distances)
 
 print("\nAverage distance between all pairs is: %.4f" % average_distance)
+
+avg_dist_list = []
+for i in range(0, len(X)):
+    for j in range(0, len(X)):
+        dist = distance.euclidean(X[i], Y[j])
+        avg_dist_list.append(dist)
+avg_dist = sum(avg_dist_list)/len(avg_dist_list)
+
+print("\nThe average distance between points in one cluster and points in the other cluster is: %.4f" % avg_dist)
+
+
