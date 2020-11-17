@@ -24,7 +24,7 @@ y_output = output_df['Label'].values
 cv = KFold(n_splits = 5, random_state = None, shuffle = False)
 
 # create a KNN classifier by choosing the best K value obtained, K = 5
-knn = KNeighborsClassifier(n_neighbors = 5)
+knn = KNeighborsClassifier(n_neighbors = 1)
 
 i = 1
 accuracy, precision, recall, f1_score = [], [], [], []
@@ -107,50 +107,6 @@ with open('sample_submission.csv', 'a') as a_writer:
   a_writer.write("ImageId" + "," + "label" + "\n")  
   for img_id, y_pred in zip(ImageId, y_predict):
     a_writer.write(str(img_id) + "," + str(y_pred) + "\n")
-
-################################################################################################
-# Plotting accuracy, precision, recall and F1 score of all 5 founds and their mean values
-################################################################################################
-
-fig, ax = plt.subplots(2,2, figsize = (7,7), sharex=True)
-fig.suptitle('KNN Five Fold Metrics')
-x_values = ('Fold 1', 'Fold 2', 'Fold 3', 'Fold 4', 'Fold 5')
-y_pos = np.arange(len(x_values))
-
-ax[0,0].bar(y_pos, accuracy, align = 'center', alpha = 0.5)
-ax[0,0].set_xticks(y_pos, x_values)
-ax[0,0].set_title("Accuracy")
-ax[0,0].set_xlabel("Fold values")
-ax[0,0].set_ylabel("Accuracy")
-acc_mean = np.array(accuracy).mean()
-ax[0,0].axvline(acc_mean, color = 'k', linestyle = 'dashed', linewidth = 1)
-
-ax[0,1].bar(y_pos, precision, align = 'center', alpha = 0.5)
-ax[0,1].set_xticks(y_pos, x_values)
-ax[0,1].set_title("Precision")
-ax[0,1].set_xlabel("Fold values")
-ax[0,1].set_ylabel("Precision")
-pre_mean = np.array(precision).mean()
-ax[0,1].axvline(acc_mean, color = 'k', linestyle = 'dashed', linewidth = 1)
-
-ax[1,0].bar(y_pos, recall, align = 'center', alpha = 0.5)
-ax[1,0].set_xticks(y_pos, x_values)
-ax[1,0].set_title("Recall")
-ax[1,0].set_xlabel("Fold values")
-ax[1,0].set_ylabel("Recall")
-rec_mean = np.array(recall).mean()
-ax[1,0].axvline(rec_mean, color = 'k', linestyle = 'dashed', linewidth = 1)
-
-ax[1,1].bar(y_pos, f1_score, align = 'center', alpha = 0.5)
-ax[1,1].set_xticks(y_pos, x_values)
-ax[1,1].set_title("F1 score")
-ax[1,1].set_xlabel("Fold values")
-ax[1,1].set_ylabel("F1 Score")
-f1_mean = np.array(f1_score).mean()
-ax[1,1].axvline(f1_mean, color = 'k', linestyle = 'dashed', linewidth = 1)
-
-plt.tight_layout()
-fig.savefig("Evaluation_Metrics.png")
 
 #########################################################################################
 # Plot Pie chart
